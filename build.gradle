@@ -35,6 +35,7 @@ dependencies {
     implementation 'com.nononsenseapps:filepicker:4.2.1'
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.core:core:1.15.0'
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
 
 }
 

@@ -4,6 +4,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import com.mde.potdroid.fragments.TopicFragment;
+import com.mde.potdroid.helpers.LocalWebServer;
+
+import java.io.IOException;
+
+import fi.iki.elonen.NanoHTTPD;
 
 /**
  * The Activity that contains a TopicFragment. It handles some callbacks of the
@@ -15,12 +20,19 @@ public class TopicActivity extends BaseActivity {
     private Integer mTopicId = 0;
     private Integer mPage = 1;
     private Integer mPostId = 0;
-
+    private LocalWebServer server;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setArgs(getIntent());
+
+        server = new LocalWebServer(this, 8080);
+        try {
+            server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // create and add the fragment
         mTopicFragment = (TopicFragment) getSupportFragmentManager().findFragmentByTag("topic");
@@ -32,6 +44,13 @@ public class TopicActivity extends BaseActivity {
                     .add(R.id.content, mTopicFragment, "topic")
                     .commit();
         }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        if (server != null) server.stop();
+        super.onDestroy();
     }
 
     public void setArgs(Intent i) {

@@ -216,8 +216,9 @@ function replaceVideo(el) {
     if(el.hasClass("yt")) {
         var id = youtube_parser(src);
         var wrapper = $("<div class=\"videoWrapper\"></div>");
-        var iframe = $("<iframe type=\"text/html\" frameborder=\"0\" allowfullscreen></iframe>")
-            .attr("src", "http://www.youtube.com/embed/" + id + "?fs=1");
+        var iframe = $("<iframe type=\"text/html\" frameborder=\"0\" allowfullscreen loading=\"lazy\"></iframe>")
+            .attr("src", "https://www.youtube.com/embed/" + id + "?origin=http://localhost:8080")
+            .attr("allow", "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share")
         wrapper.append(iframe);
         el.replaceWith(wrapper);
     } else {

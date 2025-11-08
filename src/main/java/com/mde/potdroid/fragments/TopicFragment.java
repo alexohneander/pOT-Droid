@@ -22,6 +22,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
 import com.github.ksoichiro.android.observablescrollview.ObservableScrollViewCallbacks;
 import com.github.ksoichiro.android.observablescrollview.ObservableWebView;
 import com.github.ksoichiro.android.observablescrollview.ScrollState;
@@ -220,6 +221,7 @@ public class TopicFragment extends PaginateFragment implements
 
         mWebView.setScrollViewCallbacks(mWebViewScrollCallbacks);
         mWebView.getSettings().setJavaScriptEnabled(true);
+//        mWebView.getSettings().setDomStorageEnabled(true);
         mWebView.getSettings().setDefaultFontSize(mSettings.getDefaultFontSize());
         mWebView.setBackgroundColor(0x00000000);
         mWebView.getSettings().setUseWideViewPort(true);
@@ -276,7 +278,7 @@ public class TopicFragment extends PaginateFragment implements
             return;
         if (mTopic != null) {
             mWebView.loadDataWithBaseURL(
-                    "file:///android_asset/",
+                    "http://localhost:8080",
                     mTopic.getHtmlCache(),
                     "text/html",
                     Network.ENCODING_UTF8,
