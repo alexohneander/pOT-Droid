@@ -228,6 +228,10 @@ public class ImageHandler {
      * @param url the url of the image to be retrieved.
      */
     public void retrieveImage(final String url, final ImageHandlerCallback callback) {
+        retrieveImage(url, null, callback);
+    }
+
+    public void retrieveImage(final String url, final String referer, final ImageHandlerCallback callback) {
         final Uri localUri;
         try {
             localUri = CacheContentProvider.getContentUriFromUrlOrUri(url, mDir);
@@ -243,7 +247,11 @@ public class ImageHandler {
         }
 
         Network network = new Network(mContext);
-        Request request = new Request.Builder().url(url).build();
+        Request.Builder requestBuilder = new Request.Builder().url(url);
+        if (referer != null && referer.trim().length() > 0) {
+            requestBuilder.header("Referer", referer);
+        }
+        Request request = requestBuilder.build();
         network.getHttpClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

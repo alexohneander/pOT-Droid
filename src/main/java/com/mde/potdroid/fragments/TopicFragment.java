@@ -905,7 +905,7 @@ public class TopicFragment extends PaginateFragment implements
     public void loadImage(final String url, final String id) {
         ImageHandler ih = ImageHandler.getPictureHandler(getActivity());
         try {
-            ih.retrieveImage(url, new ImageHandler.ImageHandlerCallback() {
+            ih.retrieveImage(url, Utils.BASE_URL, new ImageHandler.ImageHandlerCallback() {
                 @Override
                 public void onSuccess(String url, String path, boolean from_cache) {
                     mJsInterface.displayImage(url, path, id);
@@ -926,6 +926,7 @@ public class TopicFragment extends PaginateFragment implements
         Intent intent = new Intent(getActivity(), MediaActivity.class);
         intent.putExtra(MediaFragment.ARG_TYPE, type);
         intent.putExtra(MediaFragment.ARG_URI, url);
+        intent.putExtra(MediaFragment.ARG_REFERER, Utils.BASE_URL);
         startActivityForResult(intent, 0);
     }
 

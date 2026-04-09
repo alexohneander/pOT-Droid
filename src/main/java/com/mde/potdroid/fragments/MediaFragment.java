@@ -34,6 +34,7 @@ public class MediaFragment extends BaseFragment implements OnPreparedListener {
     private boolean mVideoViewPausedInOnStop;
     public final static String ARG_URI = "uri";
     public final static String ARG_TYPE = "type";
+    public final static String ARG_REFERER = "referer";
     //private ShareActionProvider mShareActionProvider;
     private Intent mShareIntent;
 
@@ -181,12 +182,13 @@ public class MediaFragment extends BaseFragment implements OnPreparedListener {
         final Uri uri = Uri.parse(getArguments().getString(ARG_URI));
 
         String type = getArguments().getString(ARG_TYPE);
+        final String referer = getArguments().getString(ARG_REFERER);
 
         ImageHandler ih = ImageHandler.getPictureHandler(getActivity());
 
         if (type.compareTo("gif") == 0) {
             showLoadingAnimation();
-            ih.retrieveImage(uri.toString(), new ImageHandler.ImageHandlerCallback() {
+            ih.retrieveImage(uri.toString(), referer, new ImageHandler.ImageHandlerCallback() {
                 @Override
                 public void onSuccess(String url, final String path, boolean from_cache) {
                     getBaseActivity().runOnUiThread(new Runnable() {
@@ -229,7 +231,7 @@ public class MediaFragment extends BaseFragment implements OnPreparedListener {
         } else if (type.compareTo("image") == 0) {
             showLoadingAnimation();
             try {
-                ih.retrieveImage(uri.toString(), new ImageHandler.ImageHandlerCallback() {
+                ih.retrieveImage(uri.toString(), referer, new ImageHandler.ImageHandlerCallback() {
                     @Override
                     public void onSuccess(String url, final String path, boolean from_cache) {
                         getBaseActivity().runOnUiThread(new Runnable() {
