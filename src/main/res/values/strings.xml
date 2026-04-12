@@ -176,5 +176,18 @@ Es gibt einen pOT-Droid Thread. Den Link und die Änderungen findest du unter \'
     <string name="editor_dialog_ok">Einfügen</string>
     <string name="editor_dialog_cancel">Abbrechen</string>
 
+    <!-- share image -->
+    <string name="share_pick_topic">Thema auswählen</string>
+    <string name="share_pick_board">Board auswählen</string>
+    <string name="share_browse_boards">Boards durchsuchen</string>
+    <string name="share_show_bookmarks">Bookmarks anzeigen</string>
+    <string name="share_oauth_required">Bitte zuerst beim Bildhoster anmelden</string>
+    <string name="share_upload_failed">Bild-Upload fehlgeschlagen</string>
+
+    <!-- editor image upload -->
+    <string name="image_insert_title">Bild einfügen</string>
+    <string name="image_option_url">URL eingeben</string>
+    <string name="image_option_upload">Bild hochladen</string>
+    <string name="image_uploading">Bild wird hochgeladen…</string>
 
 </resources>

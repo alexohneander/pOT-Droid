@@ -64,7 +64,7 @@ public class Network {
         }
 
         mHeaders = new Headers.Builder()
-                .add("User-Agent", mSettings.getUserAgent())
+                .add("User-Agent", "potber")
                 .build();
     }
 

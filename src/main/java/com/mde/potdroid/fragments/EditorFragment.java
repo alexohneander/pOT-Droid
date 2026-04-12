@@ -1,9 +1,11 @@
 package com.mde.potdroid.fragments;
 
 import android.app.Activity;
+import androidx.appcompat.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -18,6 +20,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ActionMenuView;
@@ -30,6 +33,7 @@ import androidx.loader.content.Loader;
 import com.mde.potdroid.R;
 import com.mde.potdroid.helpers.AsyncHttpLoader;
 import com.mde.potdroid.helpers.FormEncodingBuilder;
+import com.mde.potdroid.helpers.ImageUploadHelper;
 import com.mde.potdroid.helpers.Network;
 import com.mde.potdroid.helpers.Utils;
 import com.mde.potdroid.parsers.MessageParser;
@@ -53,6 +57,8 @@ public class EditorFragment extends BaseFragment implements LoaderManager.Loader
 
     public final String[] MIME_TYPES = new String[] {"image/*"};
 
+    private static final int REQUEST_IMAGE_PICK = 1001;
+
     public class GifReceiver implements OnReceiveContentListener {
 
         @Override
@@ -61,11 +67,14 @@ public class EditorFragment extends BaseFragment implements LoaderManager.Loader
                     item -> item.getUri() != null);
             ContentInfoCompat uriContent = split.first;
             ContentInfoCompat remaining = split.second;
-            if (uriContent != null && uriContent.getLinkUri() != null) {
-                ((EditText) view).getText().insert(
-                        mEditText.getSelectionStart(),
-                        "[img]" + uriContent.getLinkUri().toString() + "[/img]"
-                );
+            if (uriContent != null) {
+                android.content.ClipData clip = uriContent.getClip();
+                if (clip != null && clip.getItemCount() > 0) {
+                    Uri uri = clip.getItemAt(0).getUri();
+                    if (uri != null) {
+                        uploadAndInsertImage(uri);
+                    }
+                }
             }
 
             return remaining;
@@ -184,7 +193,7 @@ public class EditorFragment extends BaseFragment implements LoaderManager.Loader
         Menu menu = mBBToolbarView.getMenu();
         getActivity().getMenuInflater().inflate(R.menu.bbcode_menu, menu);
 
-        mBBToolbarView.setOnMenuItemClickListener(new BBCodeHandler(getBaseActivity(), mEditText));
+        mBBToolbarView.setOnMenuItemClickListener(new BBCodeHandler(getBaseActivity(), mEditText, this));
 
         if (!mSettings.isBBCodeEditor()) {
             bbcodeToolbarHolder.setVisibility(View.GONE);
@@ -261,6 +270,66 @@ public class EditorFragment extends BaseFragment implements LoaderManager.Loader
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_PICK && resultCode == Activity.RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            if (imageUri != null) {
+                uploadAndInsertImage(imageUri);
+            }
+        }
+    }
+
+    private void uploadAndInsertImage(Uri imageUri) {
+        ImageUploadHelper uploadHelper = new ImageUploadHelper(getBaseActivity());
+
+        if (!uploadHelper.hasValidToken()) {
+            uploadHelper.startOAuthFlow(getBaseActivity());
+            Toast.makeText(getBaseActivity(), R.string.share_oauth_required, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        final AlertDialog progressDialog = new AlertDialog.Builder(getBaseActivity())
+                .setMessage(R.string.image_uploading)
+                .setCancelable(false)
+                .setView(new android.widget.ProgressBar(getBaseActivity()))
+                .show();
+
+        uploadHelper.upload(imageUri, new ImageUploadHelper.OnImageUploadedListener() {
+            @Override
+            public void onSuccess(final String imageUrl) {
+                getBaseActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        String insert = "[img]" + imageUrl + "[/img]";
+                        mEditText.getText().insert(mEditText.getSelectionStart(), insert);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(final String error) {
+                getBaseActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressDialog.dismiss();
+                        Toast.makeText(getBaseActivity(),
+                                getString(R.string.share_upload_failed) + ": " + error,
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+        });
+    }
+
+    void launchImagePicker() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, REQUEST_IMAGE_PICK);
     }
 
     @Override
@@ -514,10 +583,12 @@ public class EditorFragment extends BaseFragment implements LoaderManager.Loader
     public static class BBCodeHandler implements ActionMenuView.OnMenuItemClickListener, PromptDialog.SuccessCallback, IconSelectionDialog.IconSelectedCallback {
         private EditText mEditText;
         private AppCompatActivity mActivity;
+        private EditorFragment mFragment;
 
-        public BBCodeHandler(AppCompatActivity activity, EditText edittext) {
+        public BBCodeHandler(AppCompatActivity activity, EditText edittext, EditorFragment fragment) {
             mEditText = edittext;
             mActivity = activity;
+            mFragment = fragment;
         }
 
         @Override
@@ -539,9 +610,7 @@ public class EditorFragment extends BaseFragment implements LoaderManager.Loader
                         id.show(mActivity.getSupportFragmentManager(), "icondialog");
                         return true;
                     case R.id.image:
-                        d = PromptDialog.newInstance("Bild einfügen", "URL...", R.id.image);
-                        d.setCallback(this);
-                        d.show(mActivity.getSupportFragmentManager(), "imgedialog");
+                        showImageChoiceDialog();
                         return true;
                     case R.id.video:
                         d = PromptDialog.newInstance("Video einfügen", "URL...", R.id.video);
@@ -563,6 +632,25 @@ public class EditorFragment extends BaseFragment implements LoaderManager.Loader
                 }
 
             }
+        }
+
+        private void showImageChoiceDialog() {
+            String[] options = new String[]{
+                    mActivity.getString(R.string.image_option_url),
+                    mActivity.getString(R.string.image_option_upload)
+            };
+            new AlertDialog.Builder(mActivity)
+                    .setTitle(R.string.image_insert_title)
+                    .setItems(options, (dialog, which) -> {
+                        if (which == 0) {
+                            PromptDialog d = PromptDialog.newInstance("Bild einfügen", "URL...", R.id.image);
+                            d.setCallback(BBCodeHandler.this);
+                            d.show(mActivity.getSupportFragmentManager(), "imgedialog");
+                        } else {
+                            mFragment.launchImagePicker();
+                        }
+                    })
+                    .show();
         }
 
         @Override
