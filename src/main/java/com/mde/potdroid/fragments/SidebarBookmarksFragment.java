@@ -116,6 +116,15 @@ public class SidebarBookmarksFragment extends BaseFragment
             }
         });
 
+        ImageButton search = (ImageButton) v.findViewById(R.id.button_search);
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getBaseActivity(), SearchActivity.class);
+                startActivity(intent);
+            }
+        });
+
         return v;
 
     }

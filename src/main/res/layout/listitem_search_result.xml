@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/bbItemBackground"
+    android:layout_marginBottom="1dp">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="?attr/selectableItemBackground">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="?attr/bbListItemPaddingTB"
+            android:background="?attr/bbDarkerItemBackground">
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:textSize="?attr/bbListItemFontPrimary"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?attr/bbTextColorSecondary" />
+
+            <TextView
+                android:id="@+id/subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/title"
+                android:layout_toLeftOf="@+id/board_name"
+                android:layout_marginRight="15dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="?attr/bbListItemFontSecondary"
+                android:textColor="?attr/bbTextColorSecondary" />
+
+            <TextView
+                android:id="@+id/board_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/title"
+                android:textSize="?attr/bbListItemFontTertiary"
+                android:textColor="?attr/bbTextColorSecondary" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/result_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="?attr/bbListItemPaddingTB"
+            android:textSize="?attr/bbListItemFontSecondary"
+            android:textColor="?attr/bbTextColorPrimary"
+            android:lineSpacingMultiplier="1.2" />
+
+    </LinearLayout>
+</FrameLayout>

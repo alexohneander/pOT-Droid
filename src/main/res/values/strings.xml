@@ -176,6 +176,26 @@ Es gibt einen pOT-Droid Thread. Den Link und die Änderungen findest du unter \'
     <string name="editor_dialog_ok">Einfügen</string>
     <string name="editor_dialog_cancel">Abbrechen</string>
 
+    <!-- search -->
+    <string name="title_search">Suche</string>
+    <string name="search_label_fulltext">Volltext</string>
+    <string name="search_hint_fulltext">Suchbegriff…</string>
+    <string name="search_label_topic">Thread-Titel</string>
+    <string name="search_hint_topic">Thread-Titel…</string>
+    <string name="search_label_user">Benutzer</string>
+    <string name="search_hint_user">Benutzername…</string>
+    <string name="search_label_date_range">Zeitraum</string>
+    <string name="search_hint_date_from">Von</string>
+    <string name="search_hint_date_to">Bis</string>
+    <string name="search_label_sort">Sortierung</string>
+    <string name="search_sort_relevance">Relevanz</string>
+    <string name="search_sort_date_desc">Datum (neueste zuerst)</string>
+    <string name="search_sort_date_asc">Datum (älteste zuerst)</string>
+    <string name="search_error">Fehler bei der Suche.</string>
+    <string name="search_no_results">Keine Ergebnisse gefunden.</string>
+    <string name="search_not_logged_in">Nicht eingeloggt!</string>
+    <string name="search_empty_query">Bitte mindestens ein Suchkriterium angeben.</string>
+
     <!-- share image -->
     <string name="share_pick_topic">Thema auswählen</string>
     <string name="share_pick_board">Board auswählen</string>

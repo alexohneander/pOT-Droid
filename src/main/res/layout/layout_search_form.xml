@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.mde.potdroid.helpers.ptr.SwipyRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ptr_holder"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:enabled="false"
+    android:background="?attr/bbItemBackground">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_label_fulltext"
+                android:textColor="?attr/bbTextColorSecondary"
+                android:textSize="12sp"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt"
+                android:layout_marginTop="5pt"
+                android:layout_marginBottom="2dp" />
+
+            <EditText
+                android:id="@+id/search_query"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint_fulltext"
+                android:inputType="text"
+                android:singleLine="true"
+                android:background="?attr/bbEditTextBackground"
+                android:padding="3pt"
+                android:textColor="?attr/bbEditTextColor"
+                android:textColorHint="?attr/bbEditTextHintColor"
+                android:textSize="16sp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_label_topic"
+                android:textColor="?attr/bbTextColorSecondary"
+                android:textSize="12sp"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt"
+                android:layout_marginTop="5pt"
+                android:layout_marginBottom="2dp" />
+
+            <EditText
+                android:id="@+id/search_topic"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint_topic"
+                android:inputType="text"
+                android:singleLine="true"
+                android:background="?attr/bbEditTextBackground"
+                android:padding="3pt"
+                android:textColor="?attr/bbEditTextColor"
+                android:textColorHint="?attr/bbEditTextHintColor"
+                android:textSize="16sp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_label_user"
+                android:textColor="?attr/bbTextColorSecondary"
+                android:textSize="12sp"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt"
+                android:layout_marginTop="5pt"
+                android:layout_marginBottom="2dp" />
+
+            <EditText
+                android:id="@+id/search_user"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/search_hint_user"
+                android:inputType="text"
+                android:singleLine="true"
+                android:background="?attr/bbEditTextBackground"
+                android:padding="3pt"
+                android:textColor="?attr/bbEditTextColor"
+                android:textColorHint="?attr/bbEditTextHintColor"
+                android:textSize="16sp"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_label_date_range"
+                android:textColor="?attr/bbTextColorSecondary"
+                android:textSize="12sp"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt"
+                android:layout_marginTop="5pt"
+                android:layout_marginBottom="2dp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt">
+
+                <EditText
+                    android:id="@+id/search_date_from"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/search_hint_date_from"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:background="?attr/bbEditTextBackground"
+                    android:padding="3pt"
+                    android:textColor="?attr/bbEditTextColor"
+                    android:textColorHint="?attr/bbEditTextHintColor"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=" — "
+                    android:textColor="?attr/bbTextColorSecondary"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp" />
+
+                <EditText
+                    android:id="@+id/search_date_to"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/search_hint_date_to"
+                    android:focusable="false"
+                    android:clickable="true"
+                    android:background="?attr/bbEditTextBackground"
+                    android:padding="3pt"
+                    android:textColor="?attr/bbEditTextColor"
+                    android:textColorHint="?attr/bbEditTextHintColor"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_label_sort"
+                android:textColor="?attr/bbTextColorSecondary"
+                android:textSize="12sp"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt"
+                android:layout_marginTop="5pt"
+                android:layout_marginBottom="2dp" />
+
+            <Spinner
+                android:id="@+id/search_sort"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5pt"
+                android:layout_marginRight="5pt"
+                android:popupBackground="#FFFFFF" />
+
+        </LinearLayout>
+    </ScrollView>
+</com.mde.potdroid.helpers.ptr.SwipyRefreshLayout>
