@@ -2,6 +2,9 @@
 
 ## Version 5
 
+### 5.6.X
+  * Suche und imgpot integration
+
 ### 5.3.X
   * Mod Tools (Quickmod Integration)
 
